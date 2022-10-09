@@ -20,6 +20,8 @@
       var acceptedRestaurants = [];
       var declinedRestaurants = [];
       var restaurantNumber = 0;
+      var partnersRestaurants = [];
+      
 
       async function getNearByRestaurants(){
          await fetch("https://api.geoapify.com/v2/places?categories=catering&filter=circle:-83.008151,39.997633,2000&bias=proximity:-83.008151,39.997633&limit=20&apiKey=3203a0ff97e74809be74b642921894a4")
@@ -70,7 +72,20 @@
         } else {
           document.getElementById("restaurantName").style.display = "none";
           document.getElementById("cuisineType").style.display = "none";
-          document.getElementById("address").style.display = "none";
+          document.getElementById("address").innerHTML = "Your choices are in!";
+          initializePartner();
+        }
+      }
+
+      function initializePartner1() {
+        for (i = 0; i < 6; i++) {
+          partnersRestaurants[i] = restaurantArray[i];
+        }
+      }
+
+      function initializePartner2() {
+        for (i = 0; i < 3; i++) {
+          partnersRestaurants[i] = restaurantArray[i * 2];
         }
       }
 
@@ -113,11 +128,11 @@
               //alert();
             }
           </script>
-          <img src="dinner1.jpg" class="rounded" alt="food" />
+          <img src="dinner1.png" width="300px" height="auto" class="rounded" alt="food"/>
         </div>
-        <p3 id="restaurantName" class="lead">RESRAUNT</p3>
-        <p id="cuisineType" class="lead">description</p>
-        <p id="address" class="lead">description</p>
+        <p id="restaurantName" class="lead">Restaurant</p>
+        <p id="cuisineType" class="lead">Cuisine Type</p>
+        <p id="address" class="lead">Address</p>
         <div
           class="justify-content-center btn-toolbar gap-5"
           role="toolbar"
@@ -135,12 +150,6 @@
       </main>
       
       <footer class="mastfoot mt-auto">
-        div class="inner">
-          <p>
-            <a href="https://getbootstrap.com/">Bootstrap</a>, by
-            <a href="https://twitter.com/mdo">@mdo</a>.
-          </p>
-        </div>
       </footer>
     </div>
     
