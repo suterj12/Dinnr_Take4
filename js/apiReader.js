@@ -8,13 +8,15 @@ async function getNearByRestaurants(){
   
     function processData(responseData) {
       let restaurantList = responseData.features;
-  
+      var nameArray = [];
       restaurantList.forEach(restaurant => {
           console.log(restaurant.properties.name)
+          nameArray.push(restaurant.properties.name);
           console.log(restaurant.properties.datasource.raw.cuisine)
           
           //name = restaurant.proporties.name + restaurant.proporties.street 
           //console.log(name)
   //create html element of ^ 
       });
+      return nameArray;
     }
