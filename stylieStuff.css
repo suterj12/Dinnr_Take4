@@ -1,11 +1,29 @@
-body {
-    background-color: white;
-  }
+.title{
+  font-family: monospace;
+  font-size: x-large;
+  text-align: center;
+  position: absolute;
   
-  h1 {
-    color: black;
-    margin-left: 20px;
-    text-align: center;
-  }
+  color: rgb(230, 72, 72);
+}
 
-  
+div.static{
+  position:static;
+  border: 3px solid #000000;
+}
+
+.button {
+  border: none;
+  color: rgb(229, 216, 216);
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.button1 {
+  border-radius: 8px;
+}

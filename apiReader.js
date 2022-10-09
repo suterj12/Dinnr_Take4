@@ -1,30 +1,27 @@
-var map;
-var service;
-var infowindow;
 
-function initialize() {
-  var pyrmont = new google.maps.LatLng(-33.8665433,151.1956316);
+function initMap() {
+  var sydney = new google.maps.LatLng(-33.867, 151.195);
 
-  map = new google.maps.Map(document.getElementById('map'), {
-      center: pyrmont,
-      zoom: 15
-    });
+  infowindow = new google.maps.InfoWindow();
+
+  map = new google.maps.Map(
+      document.getElementById('map'), {center: sydney, zoom: 15});
 
   var request = {
-    location: pyrmont,
-    radius: '500',
-    query: 'restaurant'
+    query: 'Museum of Contemporary Art Australia',
+    fields: ['name', 'geometry'],
   };
 
-  service = new google.maps.places.PlacesService(map);
-  service.textSearch(request, callback);
-}
+  var service = new google.maps.places.PlacesService(map);
 
-function callback(results, status) {
-  if (status == google.maps.places.PlacesServiceStatus.OK) {
-    for (var i = 0; i < results.length; i++) {
-      var place = results[i];
-      createMarker(results[i]);
+  service.findPlaceFromQuery(request, function(results, status) {
+    if (status === google.maps.places.PlacesServiceStatus.OK) {
+      for (var i = 0; i < results.length; i++) {
+        createMarker(results[i]);
+      }
+      map.setCenter(results[0].geometry.location);
     }
-  }
+  });
+
+
 }
