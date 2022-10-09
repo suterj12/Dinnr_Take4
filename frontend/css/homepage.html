@@ -54,27 +54,54 @@
         document.getElementById("address").innerHTML = item.address;
       }
 
-      function arrayPrinter() {
-        for (i = 0; i < restaurantArray.length; i++) {
-          console.log(restaurantArray[i]);
+      function arrayPrinter(array) {
+        var listOfRestraunts = "";
+        for (i = 0; i < array.length - 1; i++) {
+          var item = array[i];
+          listOfRestraunts = listOfRestraunts + item.name + ", ";
         }
+        listOfRestraunts = listOfRestraunts + array[array.length-1].name;
+        return listOfRestraunts;
       }
 
       function yuckOrYummy(wasYummy) {
-        if (wasYummy) {
+        if (wasYummy == true) {
+          console.log('Yummy')
           acceptedRestaurants[acceptedRestaurants.length] = restaurantArray[restaurantNumber]
         } else {
+          console.log('Yucky')
           declinedRestaurants[acceptedRestaurants.length] = restaurantArray[restaurantNumber]
         }
         restaurantNumber++;
-        if (restaurantNumber <= restaurantArray.length) {
+        if (restaurantNumber < restaurantArray.length) {
           changeRestaurant(restaurantNumber);
         } else {
-          document.getElementById("restaurantName").style.display = "none";
-          document.getElementById("cuisineType").style.display = "none";
-          document.getElementById("address").innerHTML = "Your choices are in!";
-          initializePartner();
+          shitIsDone();
         }
+      }
+
+      function determineMatches(array1, array2) {
+        var outputArray = [];
+        for (i = 0; i < array1.length; i++) {
+          for (j = 0; j < array2.length; j++) {
+            if (array1[i].name == array2[j].name) {
+              outputArray[outputArray.length] = array1[i];
+            }
+          }
+        }
+        return outputArray;
+      }
+
+      function displayWinner(array) {
+        document.getElementById("cuisineType").innerHTML = "Dinnr chooses: " + array[0].name;
+      }
+
+      function shitIsDone() {
+        initializePartner1();
+        var matches = determineMatches(acceptedRestaurants, partnersRestaurants);
+        document.getElementById("restaurantName").style.display = "none";
+        document.getElementById("address").innerHTML = "The common choices were: " + arrayPrinter(matches);
+        displayWinner(matches);
       }
 
       function initializePartner1() {
@@ -139,7 +166,7 @@
           aria-label="Toolbar with button groups"
         >
           <div class="btn-group" role="group" aria-label="First group">
-            <button onclick="yuckOrYummy(true)" type="button" class="btn btn-lg btn-secondary">Yuck</button>
+            <button onclick="yuckOrYummy(false)" type="button" class="btn btn-lg btn-secondary">Yuck</button>
           </div>
           <div class="btn-group" role="group" aria-label="Second group">
             <button onclick="yuckOrYummy(true)" type="button" class="btn btn-lg btn-secondary">
