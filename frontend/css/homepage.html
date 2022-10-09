@@ -14,6 +14,75 @@
     />
     <title>DINNR</title>
 
+    <script>
+
+      var restaurantArray = [];
+      var acceptedRestaurants = [];
+      var declinedRestaurants = [];
+      var restaurantNumber = 0;
+
+      async function getNearByRestaurants(){
+         await fetch("https://api.geoapify.com/v2/places?categories=catering&filter=circle:-83.008151,39.997633,2000&bias=proximity:-83.008151,39.997633&limit=20&apiKey=3203a0ff97e74809be74b642921894a4")
+        .then(response => response.json())
+         .then(result => processData(result))
+         .catch(error => console.log('error', error)); 
+        }
+
+      class RestaurantObject {
+        constructor (name, cuisineType, address) {
+            this.name = name;
+            this.cuisineType = cuisineType;
+            this.address = address;
+
+          }
+        }
+        
+      function processData(responseData) {
+         let restaurantList = responseData.features;
+         restaurantList.forEach(restaurant => {
+        var place = new RestaurantObject(restaurant.properties.name, restaurant.properties.datasource.raw.cuisine, restaurant.properties.formatted);
+            restaurantArray.push(place);
+          });
+      }
+
+      function changeRestaurant(index) {
+        var item = restaurantArray[index];
+        document.getElementById("restaurantName").innerHTML = item.name;
+        document.getElementById("cuisineType").innerHTML = item.cuisineType;
+        document.getElementById("address").innerHTML = item.address;
+      }
+
+      function arrayPrinter() {
+        for (i = 0; i < restaurantArray.length; i++) {
+          console.log(restaurantArray[i]);
+        }
+      }
+
+      function yuckOrYummy(wasYummy) {
+        if (wasYummy) {
+          acceptedRestaurants[acceptedRestaurants.length] = restaurantArray[restaurantNumber]
+        } else {
+          declinedRestaurants[acceptedRestaurants.length] = restaurantArray[restaurantNumber]
+        }
+        restaurantNumber++;
+        if (restaurantNumber <= restaurantArray.length) {
+          changeRestaurant(restaurantNumber);
+        } else {
+          document.getElementById("restaurantName").style.display = "none";
+          document.getElementById("cuisineType").style.display = "none";
+          document.getElementById("address").style.display = "none";
+        }
+      }
+
+      async function main() {
+        await getNearByRestaurants();
+        changeRestaurant(restaurantNumber);
+      }
+
+      main();
+
+    </script>
+
     <!-- Bootstrap core CSS -->
 
     <!-- Custom styles for this template -->
@@ -46,26 +115,27 @@
           </script>
           <img src="dinner1.jpg" class="rounded" alt="food" />
         </div>
-        <p3 class="lead">RESRAUNT</p3>
-        <p class="lead">description</p>
+        <p3 id="restaurantName" class="lead">RESRAUNT</p3>
+        <p id="cuisineType" class="lead">description</p>
+        <p id="address" class="lead">description</p>
         <div
           class="justify-content-center btn-toolbar gap-5"
           role="toolbar"
           aria-label="Toolbar with button groups"
         >
           <div class="btn-group" role="group" aria-label="First group">
-            <button type="button" class="btn btn-lg btn-secondary">Yuck</button>
+            <button onclick="yuckOrYummy(true)" type="button" class="btn btn-lg btn-secondary">Yuck</button>
           </div>
           <div class="btn-group" role="group" aria-label="Second group">
-            <button type="button" class="btn btn-lg btn-secondary">
+            <button onclick="yuckOrYummy(true)" type="button" class="btn btn-lg btn-secondary">
               Yummy
             </button>
           </div>
         </div>
       </main>
-
+      
       <footer class="mastfoot mt-auto">
-        <div class="inner">
+        div class="inner">
           <p>
             <a href="https://getbootstrap.com/">Bootstrap</a>, by
             <a href="https://twitter.com/mdo">@mdo</a>.
@@ -73,6 +143,8 @@
         </div>
       </footer>
     </div>
+    
+
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
