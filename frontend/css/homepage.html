@@ -89,11 +89,14 @@
             }
           }
         }
+        if (outputArray.length == 0) {
+          outputArray.push(restaurantArray[5]);
+        }
         return outputArray;
       }
 
       function displayWinner(array) {
-        document.getElementById("restaurantName").innerHTML = "Dinnr chooses: " + array[1].name;
+        document.getElementById("restaurantName").innerHTML = "Dinnr chooses: " + array[0].name;
         document.getElementById("yum").style.display = "none";
         document.getElementById("yuck").style.display = "none";
       }
